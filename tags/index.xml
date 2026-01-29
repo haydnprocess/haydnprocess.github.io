@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on HaydnProcess</title>
+    <link>/tags/</link>
+    <description>Recent content in Tags on HaydnProcess</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 27 Jan 2026 18:56:47 +0100</lastBuildDate>
+    <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ms-Rpc</title>
+      <link>/tags/ms-rpc/</link>
+      <pubDate>Tue, 27 Jan 2026 18:56:47 +0100</pubDate>
+      <guid>/tags/ms-rpc/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Smb</title>
+      <link>/tags/smb/</link>
+      <pubDate>Tue, 27 Jan 2026 18:56:47 +0100</pubDate>
+      <guid>/tags/smb/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Wmi</title>
+      <link>/tags/wmi/</link>
+      <pubDate>Tue, 27 Jan 2026 18:56:47 +0100</pubDate>
+      <guid>/tags/wmi/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

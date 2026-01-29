@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on HaydnProcess</title>
+    <link>/posts/</link>
+    <description>Recent content in Posts on HaydnProcess</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 27 Jan 2026 18:56:47 +0100</lastBuildDate>
+    <atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Understanding MS-RPC and its role in Windows exploitation tools</title>
+      <link>/posts/ms-rpc/</link>
+      <pubDate>Tue, 27 Jan 2026 18:56:47 +0100</pubDate>
+      <guid>/posts/ms-rpc/</guid>
+      <description>A practical overview of MS-RPC, port 135, and how Windows administration and exploitation tools use it</description>
+    </item>
+  </channel>
+</rss>

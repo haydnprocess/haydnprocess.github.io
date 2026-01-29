@@ -1,0 +1,12 @@
+
+.post {
+  max-width: 900px;   /* not working */
+  width: 100%;
+}
+
+
+.sidebar {
+  background-color: #111827 ;
+}
+
+
