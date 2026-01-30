@@ -227,11 +227,11 @@
   
   <div class="post">
     <h2 id="introduction">Introduction</h2>
-<p>During a port scan, we often see port 135 (MS-RPC) on Windows systems. We are also all familiar with and use tools like WMI, <code>rpcclient</code>, <code>smbexec</code>, etc.</p>
+<p>During a port scan, we often see port 135 (MS-RPC) on Windows systems. Furthermore, we all know and use tools like WMI, <code>rpcclient</code>, or <code>smbexec</code>.</p>
 <p><em>But did you know that the use of these tools would not be possible without this specific port?</em></p>
-<p>In this article, we will first give a brief overview of the MS-RPC protocol, then study its two modes of operation: <u>RPC over TCP using dynamic ports</u>, and <u>RPC over SMB using Named Pipes</u>. These will be illustrated respectively with WMI and <code>rpcclient</code>.</p>
+<p>In this article, we will provide a brief description of the MS-RPC protocol, then examine its two modes of operation: <u>RPC over TCP using dynamic ports</u>, and <u>RPC over SMB using Named Pipes</u>. We will illustrate these modes respectively with WMI and <code>rpcclient</code>.</p>
 <h2 id="rpc-ms-rpc-and-the-role-of-port-135">RPC, MS-RPC, and the role of port 135</h2>
-<p>Very briefly, the RPC (<em>Remote Procedure Call)</em> protocol allows procedure calls to be performed according to a client-server model, whether locally (client and server on the same machine) or remotely. In other words, RPC enables a process (client) to call a function exposed by another process (server).</p>
+<p>In short, RPC (<em>Remote Procedure Call</em>) enables procedure calls based on a client-server model, whether locally (client and server on the same machine) or remotely. In other words, it allows a process (client) to invoke a function exposed by another process (server).</p>
 <p>💡 MS-RPC is simply Microsoft&rsquo;s implementation of the RPC protocol.</p>
 <p>On Windows, services such as <strong>WMI</strong> (<em>Windows Management Instrumentation</em>) or <strong>SCM</strong> (<em>Service Control Manager</em>) <span style="font-weight: bold; color:red">rely on RPC</span> to receive and process requests. Therefore, if RPC (implemented by the RPCSS service) is disabled, all these services can no longer function, either locally or remotely - in other words, it amounts to <strong>cutting the backbone of Windows communications</strong>.</p>
 <p>For remote RPC communications (the local case, which is simpler, will also be covered), RPC (or MS-RPC) can use two types of transport:</p>
@@ -256,7 +256,7 @@
 </ol>
 <p>Thus, RPC can be seen as a standardized &ldquo;tunnel&rdquo; that hides the complexity of inter-process communication and provides a unified interface for processes to communicate, locally or remotely.</p>
 <h3 id="remote-communication-with-wmi-and-port-135">Remote communication with WMI (and port 135)</h3>
-<p>The process is the same. Using the same WMI command, <code>wmic.exe</code> acts as the client (<span style="font-weight: bold; color:red">P1</span>) and queries the WMI service hosted in winmgmt.exe (<span style="font-weight: bold; color:#4169E1">P2</span>): <code>wmic /node:TARGET_IP process list brief</code></p>
+<p>The process is the same. Using the same WMI command, <code>wmic.exe</code> acts as the client (<span style="font-weight: bold; color:red">P1</span>) and queries the WMI service hosted in <code>winmgmt.exe</code> (<span style="font-weight: bold; color:#4169E1">P2</span>): <code>wmic /node:TARGET_IP process list brief</code></p>
 <ul>
 <li>The difference is in the <span style="font-weight: bold; color:red">transport</span>: for remote communication, <code>ncacn_ip_tcp</code> is used, using port 135 for endpoint resolution.</li>
 <li><u>Port 135</u> only acts as a <u>directory</u> (Endpoint Mapper):
@@ -271,7 +271,7 @@
 <h2 id="rpc-over-smb-via-named-pipes-rpcclient">RPC over SMB via Named Pipes (rpcclient)</h2>
 <p>Under Windows, many RPC services (such as LSARPC, NETLOGON, and <strong>SAMR</strong> studied here) do not listen on a dedicated TCP port (unlike WMI, which uses a dynamic port). Instead, communication is performed via Named Pipes and carried over SMB (port 445).</p>
 <p>💡 Port 135 is still used for endpoint mapping, but instead of returning a dynamic port, it returns the name of a named pipe. As with WMI, when a service starts (LSA, SAM, Netlogon, etc.), it registers itself with the Endpoint Mapper (port 135) by providing its endpoint - for example, <code>\pipe\samr</code>.</p>
-<p><u>Illustration</u> : using <code>rpcclient</code>, we can for example list users with the <code>enumdomusers</code> command, which involves the following steps:</p>
+<p><u>Illustration</u>: using <code>rpcclient</code>, we can for example list users with the <code>enumdomusers</code> command, which involves the following steps:</p>
 <ol>
 <li><strong>Contact port 135</strong> to locate the SAMR service<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>.
 <ul>
@@ -281,16 +281,17 @@
 <li><strong>Open the named pipe</strong> over the SMB protocol (port 445), for example <code>\\Server\pipe\samr</code>.</li>
 <li><strong>Send the RPC request <code>enumdomusers</code></strong> (RPC call <code>SamrEnumerateUsersInDomain</code>) to the SAMR service.
 <ul>
-<li>If the target is a Domain Controller, SAMR queries the Active Directory database (NTDS.dit).</li>
-<li>If the target is a regular machine, the local SAMR service queries the local SAM database (<code>C:\Windows\System32\config\SAM</code>).</li>
+<li>If the target is a Domain Controller (DC): SAMR service queries the Active Directory database (NTDS.dit).</li>
+<li>If the target is a non-DC machine: SAMR queries the local SAM database (<code>C:\Windows\System32\config\SAM</code>).</li>
 </ul>
 </li>
 <li><strong>The service then returns the list of users</strong> through the same SMB connection (port 445), which <code>rpcclient</code> displays.</li>
 </ol>
-<p>Thus, although the communication uses the SMB protocol, it has no relation to the file-sharing functionality of SMB: here, SMB is only used as a transport for RPC exchanges.</p>
-<p><img src="remote_comm_rpcclient.png" alt="Description"></p>
-<p>Finally, for other <code>rpcclient</code> commands (for example <code>netsharenum</code> to list shares), different RPC services are invoked in the same way: opening a named pipe over SMB (e.g. <code>\pipe\srvsvc</code>) → sending an RPC call (<code>NetrShareEnum</code>) → and receiving the response from the <code>srvsvc</code> service.</p>
-<p>The same principle can be found in Impacket tools such as <code>secretsdump.py</code> or <code>psexec.py</code>, which rely on the same RPC-over-SMB mechanisms.</p>
+<p>❗Although the communication goes through SMB, it is not related to the file-sharing functionality: here, SMB is only used as a channel to transport RPC messages.</p>
+<p><img src="remote_comm_rpcclient.png" alt="Description">
+<br>
+Finally, for other <code>rpcclient</code> commands (e.g. <code>netsharenum</code> to list shares), other services will be called in the same way: opening a named pipe over SMB (e.g. <code>\pipe\srvsvc</code>) → sending an RPC call (<code>NetrShareEnum</code>) → response from the <code>srvsvc</code> service.</p>
+<p>The same principle is also used by Impacket tools such as <code>secretsdump.py</code> or <code>psexec.py</code>, which rely on the same RPC-over-SMB mechanisms.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>In summary, under Windows, RPC is an important mechanism that allows processes and services to communicate locally or remotely. Depending on the case, these exchanges rely either on TCP with dynamic ports or on SMB via Named Pipes, with port 135 also playing a key role in endpoint resolution.</p>
 <p>These concepts help us to better understand how administration and attack tools operate and interact with Windows services.</p>
