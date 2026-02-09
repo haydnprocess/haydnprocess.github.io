@@ -6,8 +6,29 @@
     <description>Recent content in Tags on HaydnProcess</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 27 Jan 2026 18:56:47 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 02 Feb 2026 17:35:25 +0100</lastBuildDate>
     <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Cache Key Normalization</title>
+      <link>/tags/cache-key-normalization/</link>
+      <pubDate>Mon, 02 Feb 2026 17:35:25 +0100</pubDate>
+      <guid>/tags/cache-key-normalization/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Web Cache Poisoning</title>
+      <link>/tags/web-cache-poisoning/</link>
+      <pubDate>Mon, 02 Feb 2026 17:35:25 +0100</pubDate>
+      <guid>/tags/web-cache-poisoning/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Xss</title>
+      <link>/tags/xss/</link>
+      <pubDate>Mon, 02 Feb 2026 17:35:25 +0100</pubDate>
+      <guid>/tags/xss/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Ms-Rpc</title>
       <link>/tags/ms-rpc/</link>

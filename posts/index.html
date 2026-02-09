@@ -174,7 +174,16 @@
         
 <li>
   <span class="list__title--small">
-    <a href="/posts/ms-rpc/" >Understanding MS-RPC and its role in Windows exploitation tools</a>
+    <a href="/posts/cache-poisoning-url-normalization/" >Illustrating Cache Key Normalization in Web Cache Poisoning</a>
+      
+      <time class="pull-right hidden-tablet">Feb 02 &#39;26</time>
+      
+  </span>
+</li>
+
+<li>
+  <span class="list__title--small">
+    <a href="/posts/ms-rpc/" >Understanding MS-RPC and its Role in Windows Exploitation Tools</a>
       
       <time class="pull-right hidden-tablet">Jan 27 &#39;26</time>
       
@@ -191,5 +200,29 @@
     
 
 
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+
+		  const overlay = document.createElement("div");
+		  overlay.id = "img-overlay";
+		  overlay.innerHTML = "<img>";
+		  document.body.appendChild(overlay);
+
+		  const overlayImg = overlay.querySelector("img");
+
+		  document.querySelectorAll("img.zoomable").forEach(img => {
+			img.addEventListener("click", function() {
+			  overlayImg.src = this.src;
+			  overlay.style.display = "flex";
+			});
+		  });
+
+		  overlay.addEventListener("click", function() {
+			overlay.style.display = "none";
+		  });
+
+		});
+	</script>	
     </body>
+
 </html>

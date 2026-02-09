@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on HaydnProcess</title>
-    <link>/posts/</link>
-    <description>Recent content in Posts on HaydnProcess</description>
+    <title>Web Cache Poisoning on HaydnProcess</title>
+    <link>/tags/web-cache-poisoning/</link>
+    <description>Recent content in Web Cache Poisoning on HaydnProcess</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 02 Feb 2026 17:35:25 +0100</lastBuildDate>
-    <atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="/tags/web-cache-poisoning/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Illustrating Cache Key Normalization in Web Cache Poisoning</title>
       <link>/posts/cache-poisoning-url-normalization/</link>
       <pubDate>Mon, 02 Feb 2026 17:35:25 +0100</pubDate>
       <guid>/posts/cache-poisoning-url-normalization/</guid>
       <description>An illustrated explanation of cache key normalization in a web cache poisoning context</description>
-    </item>
-    <item>
-      <title>Understanding MS-RPC and its Role in Windows Exploitation Tools</title>
-      <link>/posts/ms-rpc/</link>
-      <pubDate>Tue, 27 Jan 2026 18:56:47 +0100</pubDate>
-      <guid>/posts/ms-rpc/</guid>
-      <description>A practical overview of MS-RPC, port 135, and how Windows administration and exploitation tools use it</description>
     </item>
   </channel>
 </rss>

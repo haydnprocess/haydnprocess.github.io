@@ -174,7 +174,28 @@
       
       <div class="post-list__item">
         <span class="item__title--big">
-          <a href="/posts/ms-rpc/" >Understanding MS-RPC and its role in Windows exploitation tools</a>
+          <a href="/posts/cache-poisoning-url-normalization/" >Illustrating Cache Key Normalization in Web Cache Poisoning</a>
+        </span>
+        <span class="item__date">
+          Feb 02, 2026
+        </span>
+        <span >
+        
+        An illustrated explanation of cache key normalization in a web cache poisoning context
+        
+        </span>
+        
+          ... <a class="read-more-symbol" href="/posts/cache-poisoning-url-normalization/">➦</a>
+        
+        </div>
+        
+     
+      
+        
+      
+      <div class="post-list__item">
+        <span class="item__title--big">
+          <a href="/posts/ms-rpc/" >Understanding MS-RPC and its Role in Windows Exploitation Tools</a>
         </span>
         <span class="item__date">
           Jan 27, 2026
@@ -198,5 +219,29 @@
         
   
 
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+
+		  const overlay = document.createElement("div");
+		  overlay.id = "img-overlay";
+		  overlay.innerHTML = "<img>";
+		  document.body.appendChild(overlay);
+
+		  const overlayImg = overlay.querySelector("img");
+
+		  document.querySelectorAll("img.zoomable").forEach(img => {
+			img.addEventListener("click", function() {
+			  overlayImg.src = this.src;
+			  overlay.style.display = "flex";
+			});
+		  });
+
+		  overlay.addEventListener("click", function() {
+			overlay.style.display = "none";
+		  });
+
+		});
+	</script>	
     </body>
+
 </html>

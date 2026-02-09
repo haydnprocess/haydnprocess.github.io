@@ -19,17 +19,17 @@
     
     
 
-<title>Understanding MS-RPC and its role in Windows exploitation tools • HaydnProcess</title>
+<title>Understanding MS-RPC and its Role in Windows Exploitation Tools • HaydnProcess</title>
 
 
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Understanding MS-RPC and its role in Windows exploitation tools">
+  <meta name="twitter:title" content="Understanding MS-RPC and its Role in Windows Exploitation Tools">
   <meta name="twitter:description" content="A practical overview of MS-RPC, port 135, and how Windows administration and exploitation tools use it">
 
 <meta property="og:url" content="/posts/ms-rpc/">
   <meta property="og:site_name" content="HaydnProcess">
-  <meta property="og:title" content="Understanding MS-RPC and its role in Windows exploitation tools">
+  <meta property="og:title" content="Understanding MS-RPC and its Role in Windows Exploitation Tools">
   <meta property="og:description" content="A practical overview of MS-RPC, port 135, and how Windows administration and exploitation tools use it">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
@@ -179,7 +179,7 @@
     
 <article>
   <header>
-    <h1>Understanding MS-RPC and its role in Windows exploitation tools</h1>
+    <h1>Understanding MS-RPC and its Role in Windows Exploitation Tools</h1>
     
     
 <div class="post__meta">
@@ -267,7 +267,7 @@
 </ol>
 </li>
 </ul>
-<p><img src="remote_comm_wmi.png" alt="Description"></p>
+<img src="remote-comm-wmi.png" class="zoomable" alt="WMI remote communication">
 <h2 id="rpc-over-smb-via-named-pipes-rpcclient">RPC over SMB via Named Pipes (rpcclient)</h2>
 <p>Under Windows, many RPC services (such as LSARPC, NETLOGON, and <strong>SAMR</strong> studied here) do not listen on a dedicated TCP port (unlike WMI, which uses a dynamic port). Instead, communication is performed via Named Pipes and carried over SMB (port 445).</p>
 <p>💡 Port 135 is still used for endpoint mapping, but instead of returning a dynamic port, it returns the name of a named pipe. As with WMI, when a service starts (LSA, SAM, Netlogon, etc.), it registers itself with the Endpoint Mapper (port 135) by providing its endpoint - for example, <code>\pipe\samr</code>.</p>
@@ -288,9 +288,9 @@
 <li><strong>The service then returns the list of users</strong> through the same SMB connection (port 445), which <code>rpcclient</code> displays.</li>
 </ol>
 <p>❗Although the communication goes through SMB, it is not related to the file-sharing functionality: here, SMB is only used as a channel to transport RPC messages.</p>
-<p><img src="remote_comm_rpcclient.png" alt="Description">
+<img src="remote-comm-rpcclient.png" class="zoomable" alt="RPC over SMB">
 <br>
-Finally, for other <code>rpcclient</code> commands (e.g. <code>netsharenum</code> to list shares), other services will be called in the same way: opening a named pipe over SMB (e.g. <code>\pipe\srvsvc</code>) → sending an RPC call (<code>NetrShareEnum</code>) → response from the <code>srvsvc</code> service.</p>
+Finally, for other `rpcclient` commands (e.g. `netsharenum` to list shares), other services will be called in the same way: opening a named pipe over SMB (e.g. `\pipe\srvsvc`) → sending an RPC call (`NetrShareEnum`) → response from the `srvsvc` service.
 <p>The same principle is also used by Impacket tools such as <code>secretsdump.py</code> or <code>psexec.py</code>, which rely on the same RPC-over-SMB mechanisms.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>In summary, under Windows, RPC is an important mechanism that allows processes and services to communicate locally or remotely. Depending on the case, these exchanges rely either on TCP with dynamic ports or on SMB via Named Pipes, with port 135 also playing a key role in endpoint resolution.</p>
@@ -320,6 +320,11 @@ Finally, for other <code>rpcclient</code> commands (e.g. <code>netsharenum</code
 <div class="navigation navigation-single">
     
     
+    <a href="/posts/cache-poisoning-url-normalization/" class="navigation-next">
+      <span class="navigation-tittle">Illustrating Cache Key Normalization in Web Cache Poisoning</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
 </div>
 
 
@@ -343,5 +348,29 @@ Finally, for other <code>rpcclient</code> commands (e.g. <code>netsharenum</code
 
 
 
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+
+		  const overlay = document.createElement("div");
+		  overlay.id = "img-overlay";
+		  overlay.innerHTML = "<img>";
+		  document.body.appendChild(overlay);
+
+		  const overlayImg = overlay.querySelector("img");
+
+		  document.querySelectorAll("img.zoomable").forEach(img => {
+			img.addEventListener("click", function() {
+			  overlayImg.src = this.src;
+			  overlay.style.display = "flex";
+			});
+		  });
+
+		  overlay.addEventListener("click", function() {
+			overlay.style.display = "none";
+		  });
+
+		});
+	</script>	
     </body>
+
 </html>

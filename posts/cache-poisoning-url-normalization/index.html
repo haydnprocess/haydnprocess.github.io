@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="/posts/cache-poisoning-url-normalization/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.154.5">
+
+    
+    
+    
+
+<title>Illustrating Cache Key Normalization in Web Cache Poisoning • HaydnProcess</title>
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Illustrating Cache Key Normalization in Web Cache Poisoning">
+  <meta name="twitter:description" content="An illustrated explanation of cache key normalization in a web cache poisoning context">
+
+<meta property="og:url" content="/posts/cache-poisoning-url-normalization/">
+  <meta property="og:site_name" content="HaydnProcess">
+  <meta property="og:title" content="Illustrating Cache Key Normalization in Web Cache Poisoning">
+  <meta property="og:description" content="An illustrated explanation of cache key normalization in a web cache poisoning context">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-02-02T17:35:25+01:00">
+    <meta property="article:modified_time" content="2026-02-02T17:35:25+01:00">
+    <meta property="article:tag" content="Web Cache Poisoning">
+    <meta property="article:tag" content="Cache Key Normalization">
+    <meta property="article:tag" content="Xss">
+
+
+    
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/triple-hyde.02335ce9ff6f61fd978321bda79f698610aae0a8bb29330e816bc8a807a627a5.css" integrity="sha256-AjNc6f9vYf2XgyG9p59phhCq4Ki7KTMOgWvIqAemJ6U=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+ 
+<link rel="stylesheet" href="/css/custom.css">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+  <span class="site__title">
+    <a href="/">
+    
+      HaydnProcess
+    
+    </a>
+  </span>
+  
+    
+    
+    
+    <div class="author-image">
+      <img src="/images/avatar.png" alt="Author Image" class="img--circle img--headshot element--center">
+    </div>
+    
+  
+  
+  <p class="site__description">
+     Security starts with understanding 
+  </p>
+</div>
+
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">HaydnProcess</label>
+      <div class="menu-content">
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>Posts</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/categories/">
+						<span>Categories</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>About</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	
+	
+	<a href="https://github.com/haydnprocess" rel="me">
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+
+  </span>
+
+</a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</section>
+
+      </div>
+    </div>
+    
+
+
+  </div>
+</div>
+
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>Illustrating Cache Key Normalization in Web Cache Poisoning</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Feb 02, 2026
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/web">WEB</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/web-cache-poisoning">web cache poisoning</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/cache-key-normalization">cache key normalization</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/xss">xss</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 5 min read
+</div>
+
+
+  </header>
+  
+  
+  <div class="post">
+    <h2 id="introduction">Introduction</h2>
+<p>In the <a href="https://portswigger.net/web-security/web-cache-poisoning/exploiting-implementation-flaws#normalized-cache-keys">&ldquo;Normalized cache keys&rdquo; section</a> of Burp Suite Academy, dedicated to web cache poisoning, it is explained that when a server does not automatically decode a URL, an XSS payload may remain harmless.</p>
+<p>However, when a cache is present, these two requests could have the same key, thus making this XSS exploitable:</p>
+<pre tabindex="0"><code>GET /search?q=&lt;script&gt;alert(1)&lt;/script&gt;
+GET /search?q=%3Cscript%3Ealert%281%29%3C%2Fscript%3E
+</code></pre><p>As this mechanism deserves clarification, it will be the subject of this article. We will begin defining request normalization by the cache. Then, we will illustrate more concretely how the exploitation works by solving the associated challenge.</p>
+<p>❗ This article assumes prior knowledge of web cache poisoning (definition, impact, exploitation) as covered by the <a href="https://portswigger.net/web-security/web-cache-poisoning">platform</a>.</p>
+<h2 id="what-is-cache-key-normalization">What is cache key normalization?</h2>
+<p>Cache normalization consists of applying transformations to URLs or request parameters in order to standardize them before generating a cache key. This allows the cache to treat different variants of the same URL (such as an encoded or non-encoded version) identically by associating them with the same cache key.</p>
+<p>One of the advantages is avoiding unnecessary duplicates. For example, considering the cache key is based on the request-target<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>:</p>
+<p><u>First request</u>: <code>GET /search?q=haydn%20process</code> <br>
+<u>Second request</u>: <code>GET /search?q=haydn+process</code></p>
+<p>These two URLs are semantically equivalent (<code>%20</code> and <code>+</code> both represent a space), and without normalization, the cache would generate two distinct keys:</p>
+<pre tabindex="0"><code>/search?q=haydn%20process
+/search?q=haydn+process
+</code></pre><p>With normalization, both requests produce the same key, for example: <code>/search?q=haydn%20process</code></p>
+<p>Thus, regardless of which request is made, there will be only a single cache key and therefore a single stored resource.</p>
+<p>The following demonstration will help clarify this mechanism.</p>
+<h2 id="exploiting-url-normalization">Exploiting URL normalization</h2>
+<p>In this section, we will solve the <a href="https://portswigger.net/web-security/web-cache-poisoning/exploiting-implementation-flaws/lab-web-cache-poisoning-normalization">challenge</a> provided by Burp Suite Academy. We will rely on the <a href="https://www.youtube.com/watch?v=r2NWdLvb_lE">general methodology</a> for exploiting web cache poisoning. However, since the lab is highly guided and focused on URL normalization, some steps will be adapted.
+The approach will therefore be as follows:</p>
+<ol>
+<li><strong>Identify a cache oracle</strong></li>
+<li><strong>Add a cache buster</strong></li>
+<li><strong>Identify unkeyed inputs</strong> (<em>here, this will rather involve <u>identifying cache normalization</u></em>)</li>
+<li><strong>Exploit the unkeyed input</strong> (<em>replaced here by <u>exploiting the normalization mechanism</u></em>)</li>
+</ol>
+<h3 id="presentation">Presentation</h3>
+<p>The goal of this challenge is to exploit cache normalization to bypass the browser&rsquo;s encoding, cache a response containing an XSS payload, and deliver the URL to the victim.</p>
+<img src="challenge-presentation.png" class="zoomable" alt="Description">
+<h3 id="exploitation">Exploitation</h3>
+<p><strong>Step 1: Identify a Cache Oracle</strong></p>
+<p>This step consists of identifying any indicator revealing the presence of a caching mechanism and allowing one to determine whether a response is served from the cache or generated by the server. There are several methods, but the simplest is to observe the <code>X-Cache</code> header.</p>
+<p>Here, the cache oracle is located on the homepage, which will therefore be the candidate for cache exploitation.</p>
+<img src="step1-identifying-cache-oracle.png" class="zoomable" alt="Description">
+<p><strong>Step 2: Add a Cache Buster</strong></p>
+<p>Adding a cache buster serves <u>two purposes</u>: it allows testing without waiting for the cache to expire, and above all, it prevents impacting other users.
+In our context, as long as the payload remains harmless, it is not necessary to use one. Once the vulnerability is confirmed, we will add it.</p>
+<p><strong>Step 3: Identify Cache Normalization</strong></p>
+<p>In a classic exploitation scenario, this step consists of identifying an unkeyed input. An unkeyed input is a part of the request (parameter, cookie, header) that is not included in the cache key. When it is reflected in the response, it can be used to inject a malicious payload and poison the cache.</p>
+<p>To identify an unkeyed input, the <a href="https://portswigger.net/bappstore/17d2949a985c4b7ca092728dba871943">Param Miner</a> extension is generally used, but <u>it did not yield any results here</u>.</p>
+<p>💡 <u>However</u>, by encoding the root of the URL, we find a way to reflect a payload. After sending an initial request and then a second one, it can be observed that the second receives the cached response generated by the first, even though the paths differ (and should therefore produce distinct keys). This indicates that <span style="font-weight: bold; color:red">normalization</span> is being applied.</p>
+<img src="step3-identifying-cache_normalization.png" class="zoomable" alt="Description">
+<p><strong>Details</strong>:</p>
+<p>Here, <code>%2f</code> is sent directly via Burp (and not through the browser):</p>
+<ol>
+<li>The cache receives the request and performs normalization: it decodes <code>%2f</code> into <code>/</code>. Since no associated cache key is found, it creates one.</li>
+<li>On the server side, the path <code>%2f</code> is not interpreted as <code>/</code> and returns a <code>Not Found response</code>. This response is then cached and returned to the client.
+<ul>
+<li>💡 We observe that the incorrect path <code>%2f</code> is reflected in the response, making an XSS possible, even though no unkeyed input was identified.</li>
+</ul>
+</li>
+<li>A second request is then made, this time to <code>/</code>. The cache finds an associated cache key (<code>/</code>) and returns the previously cached response.</li>
+</ol>
+<img src="url-normalization.png" class="zoomable" alt="Description">
+<p>💡 This can also work in the reverse direction (non-encoded then encoded), as illustrated in the next step.</p>
+<p><strong>Step 4: Exploit the Mechanism</strong></p>
+<p>The final step consists of testing the final payload and then delivering it to the victim.</p>
+<p>❗ As a best practice, a cache buster is added to avoid affecting other users, even though the risk remains limited here (since the URL is unlikely to be accessed by others).</p>
+<p>So we adapt the schema:</p>
+<img src="url-normalization-exploit.png" class="zoomable" alt="Description">
+<p>The requests sent via Burp - we observe that the payload is successfully cached:</p>
+<img src="step4-exploitation.png" class="zoomable" alt="Description">
+<p>Finally, the corresponding URL is sent to the victim: the top screenshot shows that the XSS is successfully triggered on our side; the bottom one shows the URL (encoded by the browser) that will be delivered.</p>
+<img src="step4-exploitation-2.png" class="zoomable" alt="Description">
+<h2 id="conclusion">Conclusion</h2>
+<p>This article has highlighted how a simple normalization mechanism can be enough to turn a harmless vulnerability into an exploitable attack through the cache.</p>
+<p>Note that normalization also appears in <a href="https://portswigger.net/web-security/web-cache-deception">cache deception</a> scenarios.</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://snyk.io/fr/blog/how-to-avoid-web-cache-poisoning-attacks/">https://snyk.io/fr/blog/how-to-avoid-web-cache-poisoning-attacks/</a></li>
+<li><a href="https://portswigger.net/web-security/web-cache-poisoning/exploiting-implementation-flaws#normalized-cache-keys">https://portswigger.net/web-security/web-cache-poisoning/exploiting-implementation-flaws#normalized-cache-keys</a></li>
+<li><a href="https://portswigger.net/web-security/web-cache-poisoning/exploiting-implementation-flaws/lab-web-cache-poisoning-normalization">https://portswigger.net/web-security/web-cache-poisoning/exploiting-implementation-flaws/lab-web-cache-poisoning-normalization</a></li>
+</ul>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>The request-target in the request-line corresponds to <code>/search?q=haydn%20process</code> (see RFC 7230, Section 3.1.1).&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/ms-rpc/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Understanding MS-RPC and its Role in Windows Exploitation Tools</span>
+    </a>
+    
+    
+</div>
+
+
+  
+
+  
+    
+
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+
+    
+
+
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+
+		  const overlay = document.createElement("div");
+		  overlay.id = "img-overlay";
+		  overlay.innerHTML = "<img>";
+		  document.body.appendChild(overlay);
+
+		  const overlayImg = overlay.querySelector("img");
+
+		  document.querySelectorAll("img.zoomable").forEach(img => {
+			img.addEventListener("click", function() {
+			  overlayImg.src = this.src;
+			  overlay.style.display = "flex";
+			});
+		  });
+
+		  overlay.addEventListener("click", function() {
+			overlay.style.display = "none";
+		  });
+
+		});
+	</script>	
+    </body>
+
+</html>
