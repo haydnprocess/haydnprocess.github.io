@@ -6,8 +6,15 @@
     <description>Recent content in Posts on HaydnProcess</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 02 Feb 2026 17:35:25 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 16 Feb 2026 18:10:20 +0100</lastBuildDate>
     <atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Nmap Port Scanning Methodology (Commented Cheatsheet) </title>
+      <link>/posts/port-scanning-methodology/</link>
+      <pubDate>Mon, 16 Feb 2026 18:10:20 +0100</pubDate>
+      <guid>/posts/port-scanning-methodology/</guid>
+      <description>A structured methodology for accurate and reliable port scanning using Nmap</description>
+    </item>
     <item>
       <title>Illustrating Cache Key Normalization in Web Cache Poisoning</title>
       <link>/posts/cache-poisoning-url-normalization/</link>

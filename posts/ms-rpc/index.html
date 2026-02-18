@@ -289,8 +289,7 @@
 </ol>
 <p>❗Although the communication goes through SMB, it is not related to the file-sharing functionality: here, SMB is only used as a channel to transport RPC messages.</p>
 <img src="remote-comm-rpcclient.png" class="zoomable" alt="RPC over SMB">
-<br>
-Finally, for other `rpcclient` commands (e.g. `netsharenum` to list shares), other services will be called in the same way: opening a named pipe over SMB (e.g. `\pipe\srvsvc`) → sending an RPC call (`NetrShareEnum`) → response from the `srvsvc` service.
+<p>Finally, for other <code>rpcclient</code> commands (e.g. <code>netsharenum</code> to list shares), other services will be called in the same way: opening a named pipe over SMB (e.g. <code>\pipe\srvsvc</code>) → sending an RPC call (<code>NetrShareEnum</code>) → response from the <code>srvsvc</code> service.</p>
 <p>The same principle is also used by Impacket tools such as <code>secretsdump.py</code> or <code>psexec.py</code>, which rely on the same RPC-over-SMB mechanisms.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>In summary, under Windows, RPC is an important mechanism that allows processes and services to communicate locally or remotely. Depending on the case, these exchanges rely either on TCP with dynamic ports or on SMB via Named Pipes, with port 135 also playing a key role in endpoint resolution.</p>
@@ -348,6 +347,7 @@ Finally, for other `rpcclient` commands (e.g. `netsharenum` to list shares), oth
 
 
 
+	
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 
@@ -370,7 +370,15 @@ Finally, for other `rpcclient` commands (e.g. `netsharenum` to list shares), oth
 		  });
 
 		});
-	</script>	
+	</script>
+	
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+  		document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    	cb.removeAttribute('disabled');
+  			});
+		});
+	</script>
     </body>
 
 </html>

@@ -177,6 +177,7 @@ I hope you will find something useful and learn something new :)</p>
 
         </div>
         
+	
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 
@@ -199,7 +200,15 @@ I hope you will find something useful and learn something new :)</p>
 		  });
 
 		});
-	</script>	
+	</script>
+	
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+  		document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    	cb.removeAttribute('disabled');
+  			});
+		});
+	</script>
     </body>
 
 </html>

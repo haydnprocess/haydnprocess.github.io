@@ -36,3 +36,66 @@
   max-height: 90%;
   cursor: zoom-out;
 }
+
+/* End - Zoomable image */
+
+
+/* Image preview on hover */
+
+.img-preview {
+  position: relative;
+  color: #4da3ff;
+  text-decoration: underline;
+}
+
+.img-preview img {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  max-width: 500px;
+  max-height: 200px;
+  width: auto;
+  height: auto;
+  border: 1px solid #C2C2C2 !important;
+  display: none;
+  z-index: 999;
+  border: 1px solid #444;     /* border thickness */
+  border-radius: 6px;         /* rounded corners */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3); /* effect */
+}
+
+.img-preview:hover img {
+  display: block;
+}
+
+/* End - Image preview on hover */
+
+/* Clickable checkbox */
+
+input[type="checkbox"] {
+  margin-right: 6px;
+  transform: scale(1.1);
+}
+
+li input[type="checkbox"] {
+  list-style: none;
+}
+
+li:has(input[type="checkbox"]) {
+  list-style: none;
+}
+
+/* End - Clickable checkbox */
+
+/* Code block */ 
+pre {
+  padding: 0px 16px !important;
+  line-height: 1.7 !important; 
+}
+
+pre code {
+  font-size: 13px !important;
+}
+
+/* Code block */ 
+

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Methodology on HaydnProcess</title>
+    <link>/categories/methodology/</link>
+    <description>Recent content in Methodology on HaydnProcess</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 16 Feb 2026 18:10:20 +0100</lastBuildDate>
+    <atom:link href="/categories/methodology/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Nmap Port Scanning Methodology (Commented Cheatsheet) </title>
+      <link>/posts/port-scanning-methodology/</link>
+      <pubDate>Mon, 16 Feb 2026 18:10:20 +0100</pubDate>
+      <guid>/posts/port-scanning-methodology/</guid>
+      <description>A structured methodology for accurate and reliable port scanning using Nmap</description>
+    </item>
+  </channel>
+</rss>
