@@ -230,7 +230,7 @@
 <p>Nmap operates through several distinct phases, each serving a specific role in the enumeration process.</p>
 <p>For example, running <code>nmap &lt;target&gt;</code> triggers basic phases such as host discovery and port scanning<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
 <p>Conversely, running <code>nmap -A &lt;target&gt;</code>, enables additional phases, including service version detection (<code>-sV</code>), operating system detection (<code>-O</code>), traceroute (<code>--traceroute</code>), and execution of default NSE scripts (<code>-sC</code>)<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>.</p>
-<img src="nmap-phases.png" class="zoomable" alt="Nmpa phases">
+<img src="nmap-phases.png" class="zoomable" alt="Nmap phases">
 <p>Although both approaches may be suitable in some situations, they present certain limitations. In the first case, a default scan may miss essential information, such as service versions or vulnerability-related details. In the second case, using <code>-A</code> may result in longer, noisier scans that are more difficult to analyze and debug.</p>
 <p>To address these limitations, the methodology presented in the next section is based on Nmap&rsquo;s different phases, used as a structured foundation for the scanning process. The main steps are:</p>
 <ol>
@@ -446,6 +446,11 @@
       <span class="navigation-tittle">Illustrating Cache Key Normalization in Web Cache Poisoning</span>
     </a>
     
+    
+    <a href="/posts/modular-agent-via-named-pipes/" class="navigation-next">
+      <span class="navigation-tittle">Building a Modular Agent: Named Pipes and Process Delegation</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
     
 </div>
 
